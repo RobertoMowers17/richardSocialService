@@ -44,10 +44,8 @@ export class CalendarContentComponent implements OnInit {
 
   loadEvents(): void {
     this.eventService.getEventsPerMonth(this.currentYear, this.currentMonth + 1).subscribe(events => {
-      console.log('Eventos obtenidos:', events); // Verifica los datos recibidos
       this.eventDays = events.map(event => {
         const eventDate = new Date(event.date);
-        console.log(`Evento el día ${eventDate.getDate()}`); // Verifica cada fecha
         return eventDate.getDate();
       });
     }, error => {

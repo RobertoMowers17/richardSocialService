@@ -1,4 +1,9 @@
 <div class="w-full h-full">
-    <app-table-container/>
+    <app-table-container
+        [title]="'Tabla Proyectos'"
+        [actionText]="'See all'"
+        [headers]="['id', 'name']"
+        [data]="projects"
+    ></app-table-container>
 
 </div>
