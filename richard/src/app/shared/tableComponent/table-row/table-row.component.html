@@ -1,1 +1,5 @@
-<p>table-row works!</p>
+<tr>
+  <ng-container *ngFor="let header of headers">
+      <app-table-item [value]="rowData[header]"></app-table-item>
+  </ng-container>
+</tr>
