@@ -11,7 +11,7 @@
                 <h3 class="font-semibold text-base text-blueGray-700">{{ title }}</h3>
                 </div>
                 <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">See all</button>
+                <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">{{ actionText }}</button>
                 </div>
             </div>
             </div>
@@ -21,13 +21,17 @@
                 <thead>
                     <tr>
                         <th *ngFor="let header of headers" class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">
-                            {{ header }}
+                            {{ header.label }}
                         </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <app-table-row *ngFor="let row of data" [rowData]="row" [headers]="headers"></app-table-row>
+                    <tr *ngFor="let row of data">  
+                        <td *ngFor='let header of headers' class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blueGray-700">
+                            <span>{{ row[header.key] }}</span>
+                        </td>
+                    </tr>
                 </tbody>
 
             </table>

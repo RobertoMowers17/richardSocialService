@@ -13,6 +13,11 @@ export class ProjectsPContentComponent implements OnInit{
 
   projects: Project[] = [];
 
+  headers = [
+    { label: 'ID', key: 'id' },
+    { label: 'Proyecto', key: 'name' }
+  ];
+
   constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
