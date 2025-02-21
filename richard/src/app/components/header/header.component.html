@@ -1,0 +1,23 @@
+<header class="w-full bg-white shadow-md px-6 py-4 flex items-center justify-between z-100">
+    
+    <!-- Botón Hamburguesa y Titulo -->
+    <div class="flex flex-row items-center">
+        <button (click)="sidebarService.toggleSidebar()" 
+            class="text-gray-700 focus:outline-none hover:text-gray-500 transition-colors cursor-pointer">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    
+        <h1 class="text-xl font-bold text-gray-800 hidden md:block">Panel de Administración</h1>
+    </div>  
+
+    <!-- Perfil de Usuario -->
+    <div class="flex items-center space-x-4 ml-4">
+        <img src="https://i.pravatar.cc/40" alt="Usuario" class="w-10 h-10 rounded-full border">
+        <div class="hidden md:block">
+            <p class="text-sm font-medium text-gray-700">Roberto Mowers</p>
+            <p class="text-xs text-gray-500">roberto.mowersji&#64;anahuac.mx</p>
+        </div>
+    </div>
+</header>

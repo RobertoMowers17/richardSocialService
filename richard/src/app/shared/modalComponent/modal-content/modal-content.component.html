@@ -1,0 +1,15 @@
+<div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+  <div class="bg-white w-11/12 md:max-w-md mx-auto rounded-2xl shadow-xl p-6 transition-all transform scale-95 pointer-events-auto">
+    <div class="flex justify-between items-center border-b pb-3">
+      <h2 class="text-xl font-semibold text-gray-800">Seleccionar Fecha</h2>
+      <button (click)="close()" class="text-gray-500 hover:text-gray-700 text-xl cursor-pointer">✕</button>
+    </div>
+    <p class="text-lg mt-4 text-gray-600">{{ selectedDate | date: 'fullDate' }}</p>
+    <div class="mt-4 flex justify-end">
+      <button (click)="save()" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all cursor-pointer">Guardar</button>
+      <button (click)="close()" class="px-4 py-2 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-all ml-2 cursor-pointer">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+  

@@ -1,0 +1,29 @@
+<!-- Fondo oscuro (backdrop) cuando el sidebar está abierto -->
+<div *ngIf="sidebarService.isSidebarOpen$ | async" 
+    class="fixed inset-0 bg-white bg-opacity-50 z-50"
+    (click)="sidebarService.toggleSidebar()">
+</div>
+
+<!-- Sidebar -->
+<div [ngClass]="{'-translate-x-full': !(sidebarService.isSidebarOpen$ | async), 'translate-x-0': (sidebarService.isSidebarOpen$ | async)}"
+    class="fixed top-0 left-0 w-64 h-full flex flex-col bg-custom-white p-6 z-50 transition-transform duration-300">
+    
+    <!-- Título del NavBar -->
+    <h1 class="self-center text-2xl md:text-3xl text-black font-bold mb-8">Tejiendo Alianzas</h1>
+
+    <!-- Menú de navegación -->
+    <ul class="space-y-6">
+        <li>
+            <a routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="sidebarService.toggleSidebar()"
+                class="block text-xl text-black font-bold hover:text-gray-200 transition-colors cursor-pointer">DASHBOARD</a>
+        </li>
+        <li>
+            <a routerLink="/calendar" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="sidebarService.toggleSidebar()"
+                class="block text-xl text-black font-bold hover:text-gray-200 transition-colors cursor-pointer">CALENDAR</a>
+        </li>
+        <li>
+            <a routerLink="/projects" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="sidebarService.toggleSidebar()"
+                class="block text-xl text-black font-bold hover:text-gray-200 transition-colors cursor-pointer">PROJECTS</a>
+        </li>
+    </ul>
+</div>
