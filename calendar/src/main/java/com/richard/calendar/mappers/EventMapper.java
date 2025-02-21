@@ -1,7 +1,5 @@
 package com.richard.calendar.mappers;
 
-import java.util.stream.Collectors;
-
 import com.richard.calendar.dtos.EventDTO;
 import com.richard.calendar.models.Event;
 import com.richard.calendar.models.Project;
@@ -13,10 +11,7 @@ public class EventMapper {
                 event.getTitle(),
                 event.getDate(),
                 event.getProject() != null ? event.getProject().getId() : null,  // Si project es null, asigna null
-                event.getProject() != null ? event.getProject().getName() : null, // Lo mismo para el nombre
-                event.getEventProperties() != null
-                        ? event.getEventProperties().stream().map(EventPropertiesMapper::toDTO).collect(Collectors.toList())
-                        : null
+                event.getProject() != null ? event.getProject().getName() : null
         );
     }
 
