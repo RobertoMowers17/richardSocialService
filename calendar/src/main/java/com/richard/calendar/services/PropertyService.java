@@ -38,4 +38,15 @@ public class PropertyService {
         Property savedProperty = propertyRepository.save(property);
         return PropertyMapper.toDTO(savedProperty); // Convertir la entidad guardada a DTO
     }
+
+
+    public String deleteProperty(Long id) {
+        try {
+            propertyRepository.deleteById(id);
+            return("Propiedad eliminada con exito");
+        } catch (Exception e) {
+            return("Error al eliminar propiedad" + e);
+        }
+        
+    }
 }
