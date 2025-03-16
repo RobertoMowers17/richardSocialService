@@ -40,13 +40,21 @@ public class PropertyService {
     }
 
 
-    public String deleteProperty(Long id) {
-        try {
-            propertyRepository.deleteById(id);
-            return("Propiedad eliminada con exito");
-        } catch (Exception e) {
-            return("Error al eliminar propiedad" + e);
-        }
-        
+    public boolean deleteProperty(Long id) {
+    if (propertyRepository.existsById(id)) {
+        propertyRepository.deleteById(id);
+        return true;
     }
+    return false;
+}
+
+
+public PropertyDTO updateProperty(Long id, PropertyDTO propertyDTO) {
+    return propertyRepository.findById(id).map(property -> {
+        property.setName(propertyDTO.name());
+        Property updatedProperty = propertyRepository.save(property);
+        return PropertyMapper.toDTO(updatedProperty);
+    }).orElse(null); // Retorna null si la propiedad no existe
+}
+
 }

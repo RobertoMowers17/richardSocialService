@@ -38,4 +38,19 @@ public class ProjectService {
         Project savedProject = projectRepository.save(project);
         return ProjectMapper.toDTO(savedProject); // Convertir la entidad guardada a DTO
     }
+
+     // Actualizar un proyecto
+public ProjectDTO updateProject(Long id, ProjectDTO projectDTO) {
+    return projectRepository.findById(id).map(project -> {
+        project.setName(projectDTO.name());
+        Project updatedProject = projectRepository.save(project);
+        return ProjectMapper.toDTO(updatedProject);
+    }).orElse(null); // Retorna null si el proyecto no existe
+}
+
+// Eliminar un proyecto
+public void deleteProject(Long id) {
+    projectRepository.deleteById(id);
+}
+
 }

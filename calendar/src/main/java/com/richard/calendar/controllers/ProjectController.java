@@ -32,4 +32,15 @@ public class ProjectController {
     public ProjectDTO createProject(@RequestBody ProjectDTO project) {
         return projectService.createProject(project);
     }
+
+	@PutMapping("/{id}")
+public ProjectDTO updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO) {
+    return projectService.updateProject(id, projectDTO);
+}
+
+@DeleteMapping("/{id}")
+public void deleteProject(@PathVariable Long id) {
+    projectService.deleteProject(id);
+}
+
 }

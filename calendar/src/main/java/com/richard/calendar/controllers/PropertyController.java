@@ -1,6 +1,9 @@
 package com.richard.calendar.controllers;
 
+
 import java.util.*;
+
+import org.springframework.http.ResponseEntity;
 
 //import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.*;
@@ -14,30 +17,41 @@ import com.richard.calendar.services.PropertyService;
 @RequestMapping("/properties")
 @CrossOrigin(origins = "*") 
 public class PropertyController {
-    private final PropertyService propertieService;
+    private final PropertyService propertyService;
 
-    public PropertyController(PropertyService propertieService) {
-        this.propertieService = propertieService;
-    }
+public PropertyController(PropertyService propertyService) {
+    this.propertyService = propertyService;
+}
+
 
     @GetMapping
     public List<PropertyDTO> getAllProperties() {
-        return propertieService.getAllProperties();
+        return propertyService.getAllProperties();
     }
 
     @GetMapping("/{id}")
-    public PropertyDTO getPropertieById(@PathVariable Long id) {
-        return propertieService.getPropertyById(id);
+    public PropertyDTO getPropertyById(@PathVariable Long id) {
+        return propertyService.getPropertyById(id);
     }
 
     @PostMapping
-    public PropertyDTO createPropertie(@RequestBody PropertyDTO property) {
-        return propertieService.createProperty(property);
+    public PropertyDTO createProperty(@RequestBody PropertyDTO property) {
+        return propertyService.createProperty(property);
     }
 
-    @DeleteMapping("/{id}")
-    public String deletePropertie(@PathVariable Long id) {
-        return propertieService.deleteProperty(id);
+    @PutMapping("/{id}")
+    public PropertyDTO updateProperty(@PathVariable Long id, @RequestBody PropertyDTO propertyDTO) {
+        return propertyService.updateProperty(id, propertyDTO);
     }
+	
+@DeleteMapping("/{id}")
+public ResponseEntity<Void> deleteProperty(@PathVariable Long id) {
+    boolean deleted = propertyService.deleteProperty(id);
+    if (deleted) {
+        return ResponseEntity.noContent().build();
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
 
 }
