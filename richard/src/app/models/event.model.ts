@@ -4,5 +4,6 @@ export interface Event {
     date: Date;
     projectId: number;
     projectName: string;
+    properties: { id: number; name: string }[];
   }
   

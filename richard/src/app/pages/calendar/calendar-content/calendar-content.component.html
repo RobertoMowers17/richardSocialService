@@ -6,18 +6,20 @@
         <h2 class="text-white">{{ currentMonthName }} {{ currentYear }}</h2>
         <button (click)="nextMonth()" class="text-white cursor-pointer">Next</button>
       </div>
+
       <div class="grid grid-cols-7 gap-2 p-4">
         <div *ngFor="let day of daysOfWeek" class="text-center font-semibold">{{ day }}</div>
         <div *ngFor="let empty of emptyDays" class=""></div>
-        <div *ngFor="let day of daysInMonth" 
-            class="relative flex items-center justify-center text-center py-2 border rounded-lg cursor-pointer transition-all duration-200"
-            [ngClass]="{ 
-              'bg-blue-500 text-white': isToday(day), 
-              'text-gray-400 bg-gray-200 cursor-not-allowed': isPast(day) 
-            }"
-            (click)="!isPast(day) && openModal(day)">
+        <div 
+          *ngFor="let day of daysInMonth"
+          class="relative flex items-center justify-center text-center py-2 border rounded-lg cursor-pointer transition-all duration-200"
+          [ngClass]="{
+            'bg-blue-500 text-white': isToday(day), 
+            'text-gray-400 bg-gray-200 cursor-not-allowed': isPast(day) 
+          }"
+          (click)="!isPast(day) && openModal(day)"
+        >
           {{ day }}
-          <!-- Círculo rojo para eventos -->
           <div *ngIf="hasEvent(day)" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div>
         </div>
       </div>
@@ -26,7 +28,17 @@
 </div>
 
 <!-- Modal Component -->
-<app-modal-content *ngIf="isModalOpen" 
-                   [selectedDate]="selectedDate" 
-                   (closeModal)="closeModal()" 
-                   (saveEvent)="createEvent($event)"></app-modal-content>
+<app-modal-container 
+  *ngIf="isModalOpen"
+  [title]="'Crear evento'"
+  [templateRef]="formTemplate"
+  (closeModal)="closeModal()">
+</app-modal-container>
+
+<!-- Template del formulario -->
+<ng-template #formTemplate>
+  <app-form-content 
+    [config]="formConfig"
+    (save)="createEvent($event)">
+  </app-form-content>
+</ng-template>

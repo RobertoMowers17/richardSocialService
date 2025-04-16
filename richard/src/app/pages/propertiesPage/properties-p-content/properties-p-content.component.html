@@ -4,5 +4,15 @@
         [actionText]="'Añadir Nueva'"
         [headers]="headers"
         [data]="properties"
+        (actionClick)="openModal()"
     />
+
+    <app-property-modal
+        *ngIf="isModalOpen"
+        [title]="selectedProperty ? 'Editar Propiedad' : 'Añadir Nueva Propiedad'"
+        [propertyData]="selectedProperty"
+        (close)="closeModal()"
+        (save)="createOrUpdateProperty($event)">
+    </app-property-modal>
+
 </div>

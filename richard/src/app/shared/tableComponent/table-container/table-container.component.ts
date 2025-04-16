@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,4 +12,10 @@ export class TableContainerComponent {
   @Input() actionText: string = 'See all';
   @Input() headers: { label: string; key: string }[] = []; 
   @Input() data: any[] = [];
+
+  @Output() actionClick = new EventEmitter<void>();
+
+  onActionClick(): void {
+    this.actionClick.emit(); // Emitir el evento cuando se hace clic en el botón
+  }
 }
