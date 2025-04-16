@@ -35,6 +35,11 @@ public class PropertyController {
         return propertieService.createProperty(property);
     }
 
+    @PutMapping("/{id}")
+    public PropertyDTO updatePropertie(@PathVariable Long id, @RequestBody PropertyDTO property) {
+        return propertieService.updateProperty(id, property);
+    }
+
     @DeleteMapping("/{id}")
     public String deletePropertie(@PathVariable Long id) {
         return propertieService.deleteProperty(id);

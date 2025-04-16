@@ -16,6 +16,8 @@ public class EventProperty {
     private Long id;
 
     private String value;
+
+    private String description;
     
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)

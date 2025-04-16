@@ -7,7 +7,8 @@ public class ProjectMapper {
     public static ProjectDTO toDTO(Project project) {
         return new ProjectDTO(
             project.getId(),
-            project.getName()
+            project.getName(),
+            project.getDescription()
         );
     }
 
@@ -15,6 +16,7 @@ public class ProjectMapper {
         Project project = new Project();
         project.setId(projectDTO.id());
         project.setName(projectDTO.name());
+        project.setDescription(projectDTO.description());
         return project;
     }
 }

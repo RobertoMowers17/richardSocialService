@@ -18,7 +18,10 @@ public class Project {
 
     private String name;
 
+    private String description;
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events;
+
 }
 

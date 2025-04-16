@@ -39,6 +39,15 @@ public class PropertyService {
         return PropertyMapper.toDTO(savedProperty); // Convertir la entidad guardada a DTO
     }
 
+    // Actualizar una propiedad a partir de un DTO
+    public PropertyDTO updateProperty(Long id, PropertyDTO propertyDTO) {
+        // Convertir el DTO a entidad
+        Property property = PropertyMapper.toEntity(propertyDTO);
+        property.setId(id); // Establecer el ID de la entidad
+        Property updatedProperty = propertyRepository.save(property);
+        return PropertyMapper.toDTO(updatedProperty); // Convertir la entidad actualizada a DTO
+    }
+
 
     public String deleteProperty(Long id) {
         try {
