@@ -4,7 +4,10 @@ public record EventDTO (
     Long id,
     String title,
     String date,
+    String startHour,
+    String endHour,
     Long projectId,
-    String projectName
+    String projectName,
+    PropertyDTO[] propertyDTO
 ) {}
 

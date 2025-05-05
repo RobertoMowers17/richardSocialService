@@ -22,6 +22,10 @@
                 class="block text-xl text-black font-bold hover:text-gray-200 transition-colors cursor-pointer">CALENDARIO</a>
         </li>
         <li>
+            <a routerLink="/events" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="sidebarService.toggleSidebar()"
+                class="block text-xl text-black font-bold hover:text-gray-200 transition-colors cursor-pointer">EVENTOS</a>
+        </li>
+        <li>
             <a routerLink="/projects" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="sidebarService.toggleSidebar()"
                 class="block text-xl text-black font-bold hover:text-gray-200 transition-colors cursor-pointer">PROYECTOS</a>
         </li>

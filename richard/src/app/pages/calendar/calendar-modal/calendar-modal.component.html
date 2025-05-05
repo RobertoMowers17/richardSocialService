@@ -1,0 +1,52 @@
+<form [formGroup]="eventForm" (ngSubmit)="submit()" class="space-y-4">
+    <div>
+      <label class="block font-semibold mb-1">Título</label>
+      <input formControlName="title" class="w-full border rounded px-3 py-2" placeholder="Título del evento" />
+    </div>
+  
+    <div>
+      <label class="block font-semibold mb-1">Fecha</label>
+      <input type="date" formControlName="date" class="w-full border rounded px-3 py-2" />
+    </div>
+
+    <div class="flex gap-4">
+      <div class="flex-1">
+        <label class="block font-semibold mb-1">Hora de inicio</label>
+        <input type="time" formControlName="startHour" class="w-full border rounded px-3 py-2" />
+      </div>
+    
+      <div class="flex-1">
+        <label class="block font-semibold mb-1">Hora de fin</label>
+        <input type="time" formControlName="endHour" class="w-full border rounded px-3 py-2" />
+      </div>
+    </div>
+    
+  
+    <div>
+      <label class="block font-semibold mb-1">Proyecto</label>
+      <select formControlName="projectId" class="w-full border rounded px-3 py-2">
+        <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}</option>
+      </select>
+    </div>
+  
+    <div>
+      <label class="block font-semibold mb-1">Propiedades</label>
+      <div formArrayName="properties" class="space-y-2">
+        <div *ngFor="let prop of properties.controls; let i = index" [formGroupName]="i" class="flex gap-2">
+          <select formControlName="propertyId" class="flex-1 border rounded px-2 py-1">
+            <option *ngFor="let p of availableProperties" [value]="p.id">{{ p.name }}</option>
+          </select>
+          <input formControlName="value" class="flex-1 border rounded px-2 py-1" placeholder="Valor" />
+          <button type="button" (click)="removeProperty(i)" class="text-red-600 hover:text-red-800 font-bold cursor-pointer">✕</button>
+        </div>
+      </div>
+      <button type="button" (click)="addProperty()" class="mt-2 text-blue-600 hover:underline cursor-pointer">+ Añadir propiedad</button>
+    </div>
+  
+    <div class="text-end">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer" [disabled]="eventForm.invalid">
+        Guardar
+      </button>
+    </div>
+  </form>
+  

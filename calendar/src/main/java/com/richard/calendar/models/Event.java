@@ -23,6 +23,12 @@ public class Event {
     @Column(name = "date", nullable = false)
     private String date;
 
+    @Column(name = "start_hour", nullable = false)
+    private String startHour;
+
+    @Column(name = "end_hour", nullable = false)
+    private String endHour;
+
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;

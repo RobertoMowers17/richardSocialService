@@ -1,0 +1,77 @@
+<section class="py-1 bg-blueGray-50">
+  <div class="w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
+    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+      
+      <!-- Header -->
+      <div class="rounded-t mb-0 px-4 py-3 border-0">
+        <div class="flex flex-wrap items-center">
+          <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+            <h3 class="font-semibold text-lg text-blueGray-700">Eventos</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="px-4 pb-4 flex flex-wrap gap-4">
+        <div>
+          <label class="block text-blueGray-600 text-sm font-bold mb-2">Desde:</label>
+          <input
+            type="date"
+            [(ngModel)]="startDate"
+            class="border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+        <div>
+          <label class="block text-blueGray-600 text-sm font-bold mb-2">Hasta:</label>
+          <input
+            type="date"
+            [(ngModel)]="endDate"
+            class="border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+        <div class="self-end">
+          <button
+            (click)="onFilter()"
+            class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-4 py-2 rounded outline-none focus:outline-none transition-all duration-150"
+          >
+            Filtrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="block w-full overflow-x-auto">
+        <table class="items-center bg-transparent w-full border-collapse">
+          <thead>
+            <tr>
+              <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Título</th>
+              <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Fecha</th>
+              <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Proyecto</th>
+              <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Propiedades</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let event of events" class="border-t">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
+                {{ event.title }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
+                {{ event.date }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
+                {{ event.projectName }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
+                <ul class="list-disc pl-4">
+                  <li *ngFor="let prop of event.properties">
+                    <strong>{{ prop.name }}:</strong> {{ prop.description }}
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,13 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalContainerComponent } from '../../../shared/modalComponent/modal-content/modal-content.component';
-import { FormContentComponent } from '../../../shared/formComponent/form-content/form-content.component';
 import { EventService } from '../../../services/event.service';
+import { CalendarModalComponent } from '../calendar-modal/calendar-modal.component';
 
 @Component({
   selector: 'app-calendar-content',
   standalone: true,
-  imports: [CommonModule, ModalContainerComponent, FormContentComponent],
+  imports: [CommonModule, CalendarModalComponent],
   templateUrl: './calendar-content.component.html',
   styleUrl: './calendar-content.component.css',
 })
@@ -22,12 +21,6 @@ export class CalendarContentComponent implements OnInit {
   eventDays: number[] = [];
 
   @ViewChild('formTemplate') formTemplate!: TemplateRef<any>;
-
-  formConfig = [
-    { key: 'title', label: 'Título', type: 'text' },
-    { key: 'description', label: 'Descripción', type: 'text' },
-    { key: 'time', label: 'Hora', type: 'time' },
-  ];
 
   constructor(private eventService: EventService) {
     const currentDate = new Date();
@@ -54,10 +47,20 @@ export class CalendarContentComponent implements OnInit {
 
   loadEvents(): void {
     this.eventService.getEventsPerMonth(this.currentYear, this.currentMonth + 1).subscribe(events => {
-      this.eventDays = events.map(event => new Date(event.date).getDate());
+      this.eventDays = events.map(event => this.parseLocalDate(event.date).getDate());
     }, error => {
       console.error('Error al obtener eventos:', error);
     });
+  }
+
+  // ✅ Esta función asegura que la fecha se cree en zona local (sin desfase UTC)
+  parseLocalDate(dateInput: string | Date): Date {
+    if (dateInput instanceof Date) {
+      return new Date(dateInput.getFullYear(), dateInput.getMonth(), dateInput.getDate());
+    }
+
+    const [year, month, day] = dateInput.split('-').map(Number);
+    return new Date(year, month - 1, day);
   }
 
   prevMonth(): void {
@@ -100,12 +103,14 @@ export class CalendarContentComponent implements OnInit {
     return this.eventDays.includes(day);
   }
 
-  openModal(day: number): void {
-    if (this.isPast(day)) return;
-    console.log("Modal abierto para el día:", day);
-    this.selectedDate = new Date(this.currentYear, this.currentMonth, day);
+  openModal(day?: number): void {
+    if (day !== undefined && this.isPast(day)) return;
+
+    this.selectedDate = day !== undefined
+      ? new Date(this.currentYear, this.currentMonth, day)
+      : new Date();
+
     this.isModalOpen = true;
-    console.log("isModalOpen:", this.isModalOpen);
   }
 
   closeModal(): void {
@@ -115,7 +120,7 @@ export class CalendarContentComponent implements OnInit {
   createEvent(eventData: any): void {
     const eventWithDate = {
       ...eventData,
-      date: this.selectedDate?.toISOString().split('T')[0],
+      date: eventData.date || this.selectedDate,
     };
 
     this.eventService.createEvent(eventWithDate).subscribe(() => {
@@ -124,5 +129,9 @@ export class CalendarContentComponent implements OnInit {
     }, error => {
       console.error('Error al crear el evento:', error);
     });
+  }
+
+  handleEventCreation(event: any): void {
+    this.createEvent(event);
   }
 }

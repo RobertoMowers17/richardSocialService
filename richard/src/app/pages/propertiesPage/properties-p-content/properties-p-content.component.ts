@@ -56,6 +56,31 @@ export class PropertiesPContentComponent implements OnInit {
     }
     
     createOrUpdateProperty(property: any): void {
+      if (this.selectedProperty && this.selectedProperty.id) {
+        // Actualizar propiedad existente
+        this.propertyService.updateProperty(this.selectedProperty.id, property).subscribe({
+          next: (updatedProperty) => {
+            const index = this.properties.findIndex(p => p.id === updatedProperty.id);
+            if (index !== -1) this.properties[index] = updatedProperty;
+            this.closeModal();
+          },
+          error: (error) => {
+            console.error('Error al actualizar la propiedad:', error);
+          }
+        });
+      } else {
+        // Crear nueva propiedad
+        this.propertyService.createProperty(property).subscribe({
+          next: (newProperty) => {
+            this.properties.push(newProperty);
+            this.closeModal();
+          },
+          error: (error) => {
+            console.error('Error al crear la propiedad:', error);
+          }
+        });
+      }
     }
+    
 
 }

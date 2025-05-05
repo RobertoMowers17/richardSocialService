@@ -57,6 +57,32 @@ export class ProjectsPContentComponent implements OnInit{
   }
   
   createOrUpdateProject(projectData: any): void {
+    if (this.selectedProject && this.selectedProject.id) {
+      // Actualizar
+      this.projectService.updateProject(this.selectedProject.id, projectData).subscribe({
+        next: (updatedProject) => {
+          // Actualizamos en la lista local
+          const index = this.projects.findIndex(p => p.id === updatedProject.id);
+          if (index !== -1) this.projects[index] = updatedProject;
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Error al actualizar el proyecto:', error);
+        }
+      });
+    } else {
+      // Crear
+      this.projectService.createProject(projectData).subscribe({
+        next: (newProject) => {
+          this.projects.push(newProject);
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Error al crear el proyecto:', error);
+        }
+      });
+    }
   }
+  
 
 }
