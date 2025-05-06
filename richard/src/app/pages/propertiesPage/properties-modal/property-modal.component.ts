@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Property } from '../../../models/property.model';
 
 @Component({
   selector: 'app-property-modal',
@@ -9,30 +10,39 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './property-modal.component.html',
   styleUrls: ['./property-modal.component.css']
 })
-export class PropertyModalComponent implements OnInit {
-  @Input() title: string = 'Nueva Propiedad';
-  @Input() propertyData: any = null;
+export class PropertyModalComponent {
+  @Input() title = '';
+  @Input() propertyData: Property | null = null;
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Property>();
 
-  form!: FormGroup;
+  form: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      name: [this.propertyData?.name || ''],
-      description: [this.propertyData?.description || '']
+      name: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
 
-  onSubmit(): void {
-    if (this.form.valid) {
-      this.save.emit(this.form.value);
+  ngOnChanges(): void {
+    if (this.propertyData) {
+      this.form.patchValue({
+        name: this.propertyData.name,
+        description: this.propertyData.description
+      });
+    } else {
+      this.form.reset();
     }
   }
 
-  onClose(): void {
+  submit(): void {
+    if (this.form.valid) {
+      this.save.emit(this.form.value as Property);
+    }
+  }
+
+  closeModal(): void {
     this.close.emit();
   }
 }

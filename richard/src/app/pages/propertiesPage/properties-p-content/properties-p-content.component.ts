@@ -1,86 +1,84 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Property } from '../../../models/property.model';
 import { PropertyService } from '../../../services/property.service';
-import { CommonModule } from '@angular/common';
-import { TableContainerComponent } from '../../../shared/tableComponent/table-container/table-container.component';
 import { PropertyModalComponent } from '../properties-modal/property-modal.component';
+import { TableContainerComponent } from '../../../../../src/app/shared/tableComponent/table-container/table-container.component'; // <-- ESTA LÍNEA ES CLAVE
 
 @Component({
   selector: 'app-properties-p-content',
-  imports: [CommonModule, TableContainerComponent, PropertyModalComponent],
+  standalone: true,
   templateUrl: './properties-p-content.component.html',
-  styleUrl: './properties-p-content.component.css'
+  styleUrls: ['./properties-p-content.component.css'],
+  imports: [
+    CommonModule,
+    PropertyModalComponent,
+    TableContainerComponent // <-- IMPORTA AQUÍ EL COMPONENTE DE LA TABLA
+  ]
 })
 export class PropertiesPContentComponent implements OnInit {
-
   properties: Property[] = [];
-  selectedProperty: Property | null = null; // Para almacenar el proyecto seleccionado
-  isModalOpen = false; // Controla si el modal está abierto o cerrado
-
-  headers = [
-    { label: 'ID', key: 'id' },
-    { label: 'Propiedad', key: 'name' },
-    { label: 'Descripción', key: 'description' },
-    { label: 'Acciones', key: 'actions' }     
-  ];
+  selectedProperty: Property | null = null;
+  isModalOpen = false;
 
   constructor(private propertyService: PropertyService) {}
-  
-    ngOnInit(): void {
-      this.loadProperties();
-    }
-  
-    loadProperties(): void {
-      this.propertyService.getAllProperties().subscribe({
-        next: (data) => {
-          this.properties = data;
+
+  ngOnInit(): void {
+    this.loadProperties();
+  }
+
+  loadProperties(): void {
+    this.propertyService.getAllProperties().subscribe({
+      next: (data) => this.properties = data,
+      error: (err) => console.error('Error al cargar propiedades:', err)
+    });
+  }
+
+  openModal(property?: Property): void {
+    this.selectedProperty = property ? { ...property } : null;
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+  }
+
+  createOrUpdateProperty(property: Property): void {
+    if (this.selectedProperty?.id) {
+      this.propertyService.updateProperty(this.selectedProperty.id, property).subscribe({
+        next: (updated) => {
+          const index = this.properties.findIndex(p => p.id === updated.id);
+          if (index !== -1) this.properties[index] = updated;
+          this.closeModal();
         },
-        error: (error) => {
-          console.error('Error al cargar las propiedades:', error);
-        }
+        error: (err) => console.error('Error al actualizar:', err)
+      });
+    } else {
+      this.propertyService.createProperty(property).subscribe({
+        next: (created) => {
+          this.properties.push(created);
+          this.closeModal();
+        },
+        error: (err) => console.error('Error al crear:', err)
       });
     }
-  
-    openModal(property?: Property): void {
-      console.log('openModal', this.isModalOpen);
-      if (property) {
-        this.selectedProperty = { ...property };
-      } else {
-        this.selectedProperty = null; 
-      }
-      this.isModalOpen = true;
-    }
-  
-    closeModal(): void {
-      this.isModalOpen = false;
-    }
-    
-    createOrUpdateProperty(property: any): void {
-      if (this.selectedProperty && this.selectedProperty.id) {
-        // Actualizar propiedad existente
-        this.propertyService.updateProperty(this.selectedProperty.id, property).subscribe({
-          next: (updatedProperty) => {
-            const index = this.properties.findIndex(p => p.id === updatedProperty.id);
-            if (index !== -1) this.properties[index] = updatedProperty;
-            this.closeModal();
-          },
-          error: (error) => {
-            console.error('Error al actualizar la propiedad:', error);
-          }
-        });
-      } else {
-        // Crear nueva propiedad
-        this.propertyService.createProperty(property).subscribe({
-          next: (newProperty) => {
-            this.properties.push(newProperty);
-            this.closeModal();
-          },
-          error: (error) => {
-            console.error('Error al crear la propiedad:', error);
-          }
-        });
-      }
-    }
-    
+  }
 
+  deleteProperty(id: number): void {
+    this.propertyService.deleteProperty(id).subscribe({
+      next: () => {
+        this.properties = this.properties.filter(p => p.id !== id);
+      },
+      error: (err) => {
+        if (err.status === 200) {
+          // Workaround: backend responde 200 pero Angular lo trata como error
+          this.properties = this.properties.filter(p => p.id !== id);
+        } else {
+          console.error('Error al eliminar:', err);
+        }
+      }
+    });
+  }
+  
+  
 }

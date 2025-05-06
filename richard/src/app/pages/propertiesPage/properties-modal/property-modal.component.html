@@ -1,27 +1,26 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white w-11/12 max-w-md rounded-2xl shadow-xl p-6">
-      <!-- Header -->
-      <div class="flex justify-between items-center border-b pb-3">
-        <h2 class="text-xl font-semibold text-gray-800">{{ title }}</h2>
-        <button (click)="onClose()" aria-label="Cerrar modal" class="text-gray-500 hover:text-gray-700 text-xl">✕</button>
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-xl font-semibold mb-4">{{ title }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="mb-4">
+        <label class="block text-gray-700">Propiedad:</label>
+        <input formControlName="name" class="w-full border px-3 py-2 rounded" />
       </div>
-  
-      <!-- Formulario -->
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-4 space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Nombre de la Propiedad</label>
-          <input formControlName="name" type="text" class="w-full mt-1 p-2 border rounded" />
-        </div>
-  
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Descripción</label>
-          <input formControlName="description" type="text" class="w-full mt-1 p-2 border rounded" />
-        </div>
-  
-        <div class="flex justify-end">
-          <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded">Guardar</button>
-        </div>
-      </form>
-    </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Descripción:</label>
+        <textarea formControlName="description" class="w-full border px-3 py-2 rounded"></textarea>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="button" (click)="closeModal()" class="bg-gray-400 text-white px-4 py-2 rounded mr-2">
+          Cancelar
+        </button>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+          {{ title.includes('Editar') ? 'Guardar cambios' : 'Crear' }}
+        </button>
+      </div>
+    </form>
   </div>
-  
+</div>

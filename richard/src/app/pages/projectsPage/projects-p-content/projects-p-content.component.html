@@ -1,12 +1,15 @@
 <div class="w-full h-full">
   <!-- Tabla de proyectos -->
   <app-table-container
-    [title]="'Tabla Proyectos'"
-    [actionText]="'Añadir Nuevo'"
-    [headers]="headers"
-    [data]="projects"
-    (actionClick)="openModal()"
-  ></app-table-container>
+  [title]="'Tabla Proyectos'"
+  [actionText]="'Añadir Nuevo'"
+  [headers]="headers"
+  [data]="projects"
+  (actionClick)="openModal()"
+  (edit)="openModal($event)"
+  (remove)="deleteProject($event)">
+</app-table-container>
+
 
   <app-project-modal
     *ngIf="isModalOpen"

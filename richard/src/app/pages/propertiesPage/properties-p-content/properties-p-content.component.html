@@ -1,18 +1,26 @@
-<div class="w-full h-full">
+<div class="w-full h-full p-4">
     <app-table-container
-        [title]="'Tabla Propiedades'"
-        [actionText]="'Añadir Nueva'"
-        [headers]="headers"
-        [data]="properties"
-        (actionClick)="openModal()"
-    />
+  [title]="'Tabla Propiedades'"
+  [actionText]="'Añadir Nueva'"
+  [headers]="[
+    { key: 'id', label: 'ID' },
+    { key: 'name', label: 'Propiedad' },
+    { key: 'description', label: 'Descripción' },
+    { key: 'actions', label: 'Acciones' }
+  ]"
+  [data]="properties"
+  (actionClick)="openModal()"
+  (edit)="openModal($event)"
+  (remove)="deleteProperty($event)">
+</app-table-container>
 
-    <app-property-modal
-        *ngIf="isModalOpen"
-        [title]="selectedProperty ? 'Editar Propiedad' : 'Añadir Nueva Propiedad'"
-        [propertyData]="selectedProperty"
-        (close)="closeModal()"
-        (save)="createOrUpdateProperty($event)">
-    </app-property-modal>
+<app-property-modal
+  *ngIf="isModalOpen"
+  [title]="selectedProperty ? 'Editar Propiedad' : 'Añadir Nueva Propiedad'"
+  [propertyData]="selectedProperty"
+  (close)="closeModal()"
+  (save)="createOrUpdateProperty($event)">
+</app-property-modal>
 
-</div>
+  </div>
+  

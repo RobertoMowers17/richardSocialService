@@ -83,6 +83,18 @@ export class ProjectsPContentComponent implements OnInit{
       });
     }
   }
+
+  deleteProject(id: number): void {
+    this.projectService.deleteProject(id).subscribe({
+      next: () => {
+        this.projects = this.projects.filter(p => p.id !== id);
+      },
+      error: (err) => {
+        console.error('Error al eliminar:', err);
+      }
+    });
+  }
+  
   
 
 }

@@ -1,21 +1,20 @@
-import { Component, Input, Output, EventEmitter  } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-table-container',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './table-container.component.html',
-  styleUrl: './table-container.component.css'
+  styleUrls: ['./table-container.component.css']
 })
 export class TableContainerComponent {
-  @Input() title: string = 'Table Title';
-  @Input() actionText: string = 'See all';
-  @Input() headers: { label: string; key: string }[] = []; 
+  @Input() headers: any[] = [];
   @Input() data: any[] = [];
+  @Input() title: string = '';
+  @Input() actionText: string = 'Agregar';
 
   @Output() actionClick = new EventEmitter<void>();
-
-  onActionClick(): void {
-    this.actionClick.emit(); // Emitir el evento cuando se hace clic en el botón
-  }
+  @Output() edit = new EventEmitter<any>();
+  @Output() remove = new EventEmitter<number>();
 }
