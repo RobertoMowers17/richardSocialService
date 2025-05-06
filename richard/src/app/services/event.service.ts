@@ -34,4 +34,13 @@ export class EventService {
   deleteEvent(eventId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${eventId}`);
   }
+  getEventsByDate(date: Date): Observable<any[]> {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // <-- corrige mes
+    const day = String(date.getDate()).padStart(2, '0');        // <-- corrige día
+    const formattedDate = `${year}-${month}-${day}`;
+    return this.http.get<any[]>(`${this.apiUrl}/date/${formattedDate}`);
+  }
+  
+  
 }
