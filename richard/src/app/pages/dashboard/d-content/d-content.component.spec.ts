@@ -1,23 +1,46 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import {
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexChart
+} from "ngx-apexcharts";
 
-import { DContentComponent } from './d-content.component';
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: string[];
+};
 
-describe('DContentComponent', () => {
-  let component: DContentComponent;
-  let fixture: ComponentFixture<DContentComponent>;
+@Component({
+  selector: 'app-d-content',
+  templateUrl: './d-content.component.html',
+  styleUrls: ['./d-content.component.css']
+})
+export class DContentComponent {
+  public chartOptions: Partial<ChartOptions>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DContentComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(DContentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  constructor() {
+    this.chartOptions = {
+      series: [44, 55, 41, 17, 15],
+      chart: {
+        type: "donut",
+        width: 380
+      },
+      labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+  }
+}
