@@ -46,8 +46,10 @@
             <tr>
               <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Título</th>
               <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Fecha</th>
+              <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Hora Incio</th>
               <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Proyecto</th>
               <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Propiedades</th>
+              <th class="px-6 bg-blueGray-50 text-blueGray-500 py-3 text-xs uppercase font-semibold text-left">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -56,7 +58,10 @@
                 {{ event.title }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
-                {{ event.date }}
+                {{ event.date }} 
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
+                {{ event.startHour }} HRS
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-blueGray-700">
                 {{ event.projectName }}

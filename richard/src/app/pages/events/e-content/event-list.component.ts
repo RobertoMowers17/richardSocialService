@@ -24,6 +24,7 @@ export class EventListComponent implements OnInit {
   loadEvents(year: number, month: number) {
     this.eventService.getEventsPerMonth(year, month).subscribe((res) => {
       this.events = res;
+      console.log(this.events);
     });
   }
 
